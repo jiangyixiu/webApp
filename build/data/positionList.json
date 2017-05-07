@@ -1,9 +1,9 @@
 [{
     "id": "p3",
-    "imageUrl": "/images/company-3.png",
+    "imageUrl": "/images/CgqKkVd1D0yATHrBAAC2ODu0Rw8849.png",
     "job": "销售",
     "companyId": "c3",
-    "companyName": "千度",
+    "companyName": "谱思",
     "cityId": "c2",
     "cityName": "上海",
     "scaleId": "s4",
@@ -19,10 +19,10 @@
     "date": "2016-06-01 11:05"
   }, {
     "id": "p4",
-    "imageUrl": "/images/company-3.png",
+    "imageUrl": "/images/Cgo8PFTUWC-AC_DbAACAcjVfPFE124.jpg",
     "job": "产品经理",
     "companyId": "c3",
-    "companyName": "千度",
+    "companyName": "好巧",
     "cityId": "c3",
     "cityName": "广州",
     "scaleId": "s4",
@@ -30,8 +30,8 @@
     "industryId": "i1",
     "industryName": "互联网",
     "salaryId": "s6",
-    "salaryName": "15k-25k",
-    "experience": "5年以上",
+    "salaryName": "5k~8k",
+    "experience": "1-3年",
     "education": "本科",
     "benefit": "公司氛围好",
     "description": "岗位职责：\n1.制定运营可行的方案；...",
@@ -57,10 +57,10 @@
     "date": "2016-06-01 01:05"
   }, {
     "id": "p2",
-    "imageUrl": "/images/company-2.png",
-    "job": "阿语SEM工程师",
+    "imageUrl": "/images/Cgp3O1bPycGAMj0hAAAgshBCvv4840.jpg",
+    "job": "高级python研发工程师",
     "companyId": "c2",
-    "companyName": "六一集团有限公司",
+    "companyName": "映客直播",
     "cityId": "c1",
     "cityName": "北京",
     "scaleId": "s3",
@@ -68,10 +68,10 @@
     "industryId": "i1",
     "industryName": "互联网",
     "salaryId": "s3",
-    "salaryName": "5k~8k",
-    "experience": "1-3年",
+    "salaryName": "15k-25k",
+    "experience": "5年以上",
     "education": "本科",
-    "benefit": "福利待遇好",
+    "benefit": "MIT团队,技术大牛,待遇好,前景好",
     "description": "岗位要求：\n1.大型公司从事过相关工作；...",
     "date": "2016-06-01 01:05"
   }

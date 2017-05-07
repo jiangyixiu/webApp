@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('app').controller('positionCtrl',['$q', '$http', '$state', '$scope', 'cache', function($q, $http, $state, $scope, cache) {
-    cache.put('userId','123213');
+    cache.put('to','you')
     $scope.isLogin = false;
     function getPosition() {
         var def = $q.defer();

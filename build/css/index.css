@@ -317,6 +317,72 @@
   width: 100%;
   margin-top: 2.18666667rem;
 }
+.login {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-image: url(../images/background.png);
+  background-size: 100% 100%;
+}
+.login form {
+  margin-top: 6.4rem;
+}
+.login form .form-line {
+  width: 8rem;
+  height: 1.06666667rem;
+  margin: auto;
+  position: relative;
+}
+.login form .form-line::before {
+  content: '';
+  display: inline-block;
+  width: 1.666667rem;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  background-image: url(../images/lock.png);
+  background-size: auto 60%;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.login form .form-line:first-child::before {
+  background-image: url(../images/me_white.png);
+  background-size: auto 70%;
+}
+.login form input {
+  width: 8rem;
+  height: 1.06666667rem;
+  font-size: 0.37333333rem;
+  padding: 0 .666667rem 0 2.666667rem;
+  box-sizing: border-box;
+  border: none;
+  margin: 1px auto;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.login form input::-webkit-input-placeholder {
+  color: #ffffff;
+}
+.login form button {
+  width: 8rem;
+  height: 0.93333333rem;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 0.42666667rem;
+}
+.login form button.login-btn {
+  background-color: #12d5b5;
+  border: none;
+  margin-top: 2rem;
+}
+.login form button.register-btn {
+  margin-top: 0.53333333rem;
+  border: 1px solid #12d5b5;
+  background-color: rgba(18, 213, 180, 0.2);
+  color: #12d5b5;
+}
 * {
   padding: 0;
   margin: 0;

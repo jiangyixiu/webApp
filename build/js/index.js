@@ -34,6 +34,26 @@ angular.module('app').config(['$stateProvider', '$urlRouterProvider', function($
     url: '/search',
     templateUrl: 'view/search.html',
     controller: 'searchCtrl'
+}).state('login', {
+    url: '/login',
+    templateUrl: 'view/login.html',
+    controller: 'loginCtrl'
+}).state('register', {
+    url: '/register',
+    templateUrl: 'view/register.html',
+    controller: 'registerCtrl'
+}).state('favorite', {
+    url: '/favorite',
+    templateUrl: 'view/favorite.html',
+    controller: 'favoriteCtrl'
+}).state('me', {
+    url: '/me',
+    templateUrl: 'view/me.html',
+    controller: 'meCtrl'
+}).state('post', {
+    url: '/post',
+    templateUrl: 'view/post.html',
+    controller: 'postCtrl'
 });
   $urlRouterProvider.otherwise('main');
 }]);
@@ -44,6 +64,21 @@ angular.module('app').controller('companyCtrl', ['$http', '$state', '$scope', fu
     $http.get('data/company.json?id='+$state.params.id).then(function(resp) {
         $scope.company = resp.data;
     });
+}]);
+
+'use strict';
+angular.module('app').controller('favoriteCtrl', ['$http', '$scope', function ($http, $scope) {
+
+}]);
+
+'usr strict';
+angular.module('app').controller('loginCtrl', ['$http', '$scope', function ($http, $scope) {
+    
+}]);
+
+'use strict';
+angular.module('app').controller('meCtrl', ['$http', '$scope', function ($http, $scope) {
+
 }]);
 
 'use strict';
@@ -80,6 +115,16 @@ angular.module('app').controller('positionCtrl',['$q', '$http', '$state', '$scop
     getPosition().then(function(obj){
         getCompany(obj.data.companyId);
     });
+}]);
+
+'use strict';
+angular.module('app').controller('postCtrl', ['$http', '$scope', function ($http, $scope) {
+
+}]);
+
+'use strict';
+angular.module('app').controller('registerCtrl', ['$http', '$scope', function ($http, $scope) {
+
 }]);
 
 'use strict';

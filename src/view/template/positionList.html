@@ -4,6 +4,7 @@
     <h4 class="title" ng-bind="item.job"></h4>
     <p class="text" ng-bind="item.companyName + ' [' + item.cityName + '] ' + item.industryName"></p>
     <p class="salary" ng-bind="item.salaryName"></p>
+    <span ng-if="isFavorite" ng-click="$event.stopPropagation();select(item);" class="icon {{item.select?'star-active':'star'}}"></span>
     <p class="text" ng-bind="item.date"></p>
   </li>
 </ul>

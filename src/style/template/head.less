@@ -1,25 +1,38 @@
 @import "../variable.less";
 @import "../property.less";
-.head{
-  background-color: @headBgColor;
-  .text{
-    color: @defaultColor;
-  }
-  .h(40);
-  .lh(40);
-  padding: 0 8px;
-  .custom{
-    background-color: @warnColor;
-    border-color: @warnColor;
-    border-style: dashed;
-    color: @defaultColor;
-    .mt(10);
-    .pl(15);
-    .pr(15);
-  }
-  .back-btn{
-      font-size: 20px;
-      width: 1rem;
-      left: 0;
-  }
+
+.head {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    background-color: @headBgColor;
+    box-sizing: border-box;
+    .text {
+        color: @defaultColor;
+    }
+    .h(40);
+    .lh(40);
+    padding: 0 8px;
+
+    .custom {
+        background-color: @warnColor;
+        border-color: @warnColor;
+        border-style: dashed;
+        color: @defaultColor;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 10px;
+        width: 70px;
+        height: 22px;
+        margin: auto;
+    }
+
+    .back-btn {
+        font-size: 20px;
+        width: 1rem;
+        left: 0;
+    }
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app', ['ui.router', 'ngCookies']);
+angular.module('app', ['ui.router', 'ngCookies', 'validation']);
 
 'usr strict';
 angular.module('app').value('dict', {}).run(['dict', '$http', function (dict, $http) {
@@ -13,6 +13,30 @@ angular.module('app').value('dict', {}).run(['dict', '$http', function (dict, $h
     $http.get('data/scale.json').then(function (resp) {
         dict.scale = resp.data;
     });
+}]);
+
+'use strict';
+angular.module('app').config(['$provide', function ($provide) {
+    $provide.decorator('$http', ['$delegate', '$q', function ($delegate, $q) {
+        var get = $delegate.get;
+        $delegate.post = function (url, data, config) {
+            var def = $q.defer();
+            get(url).then(function (resp) {
+                def.resolve(resp);
+            },function (err) {
+                def.reject(err);
+            });
+            return {
+                success: function (cb) {
+                    def.promise.then(cb);
+                },
+                error: function (cb) {
+                    def.promise.then(null, cb);
+                }
+            }
+        }
+        return $delegate;
+    }]);
 }]);
 
 'use strict';
@@ -59,6 +83,35 @@ angular.module('app').config(['$stateProvider', '$urlRouterProvider', function($
 }]);
 
 'use strict';
+angular.module('app').config(['$validationProvider', function ($validationProvider) {
+    var expression = {
+        phone: /^1[\d]{10}$/,
+        password: function (value) {
+            var len = value.split('').length;
+            return len > 5;
+        },
+        required: function (value) {
+            return !!value;
+        }
+    };
+    var defaultMsg = {
+        phone: {
+            success: '',
+            error: '必须是11位手机号'
+        },
+        password: {
+            success: '',
+            error: '长度至少6位'
+        },
+        required: {
+            success: '',
+            error: '不能为空'
+        }
+    };
+    $validationProvider.setExpression(expression).setDefaultMsg(defaultMsg);
+}])
+
+'use strict';
 
 angular.module('app').controller('companyCtrl', ['$http', '$state', '$scope', function($http, $state, $scope) {
     $http.get('data/company.json?id='+$state.params.id).then(function(resp) {
@@ -68,17 +121,40 @@ angular.module('app').controller('companyCtrl', ['$http', '$state', '$scope', fu
 
 'use strict';
 angular.module('app').controller('favoriteCtrl', ['$http', '$scope', function ($http, $scope) {
-
+    $http.get('data/myFavorite.json').then(function (resp) {
+        console.log(resp);
+        $scope.list = resp.data;
+    })
 }]);
 
 'usr strict';
-angular.module('app').controller('loginCtrl', ['$http', '$scope', function ($http, $scope) {
-    
+angular.module('app').controller('loginCtrl', ['cache', '$state', '$http', '$scope', function (cache, $state, $http, $scope) {
+    $scope.submit = function () {
+        console.log($scope.user);
+        $http.post('data/login.json', $scope.user).success(function (resp) {
+            console.log(resp);
+            cache.put('id', resp.data.id);
+            cache.put('image', resp.data.image);
+            cache.put('name', resp.data.name);
+            $state.go('main');
+        });
+    }
 }]);
 
 'use strict';
-angular.module('app').controller('meCtrl', ['$http', '$scope', function ($http, $scope) {
-
+angular.module('app').controller('meCtrl', ['cache', '$state', '$http', '$scope', function (cache, $state, $http, $scope) {
+    if (cache.get('name')) {
+        $scope.name = cache.get('name');
+        $scope.image = cache.get('image');
+        console.log($scope.name);
+        console.log($scope.image);
+    }
+    $scope.logout = function () {
+        cache.remove('id');
+        cache.remove('image');
+        cache.remove('name');
+        $state.go('main');
+    }
 }]);
 
 'use strict';
@@ -94,13 +170,16 @@ angular.module('app').controller('mainCtrl', ['$http', '$scope', function($http,
 
 'use strict';
 
-angular.module('app').controller('positionCtrl',['$q', '$http', '$state', '$scope', 'cache', function($q, $http, $state, $scope, cache) {
-    cache.put('to','you')
-    $scope.isLogin = false;
+angular.module('app').controller('positionCtrl',['$log', '$q', '$http', '$state', '$scope', 'cache', function($log, $q, $http, $state, $scope, cache) {
+    $scope.isLogin = !!cache.get('name');
+    $scope.message = $scope.isLogin?'投个简历':'去登陆';
     function getPosition() {
         var def = $q.defer();
         $http.get('/data/position.json?id=' + $state.params.id).then(function(resp) {
             $scope.position = resp.data;
+            if (resp.data.posted) {
+                $scope.message = '已投递';
+            }
             def.resolve(resp);
         }).catch(function (err) {
             def.reject(err);
@@ -115,16 +194,79 @@ angular.module('app').controller('positionCtrl',['$q', '$http', '$state', '$scop
     getPosition().then(function(obj){
         getCompany(obj.data.companyId);
     });
+    $scope.go = function () {
+        if ($scope.message !== '已投递') {
+            if($scope.isLogin){
+                $http.post('data/handle.json', {
+                    id: $scope.position.id
+                }).success(function (resp) {
+                    $scope.message = '已投递';
+                    $log.info(resp);
+                });
+            } else {
+                $state.go('login');
+            }
+        }
+    }
 }]);
 
 'use strict';
 angular.module('app').controller('postCtrl', ['$http', '$scope', function ($http, $scope) {
+    $scope.tabList = [{
+        id: 'all',
+        name: '全部',
+    },{
+        id: 'pass',
+        name: '面试邀请'
+    },{
+        id: 'fail',
+        name: '不合适'
+    }];
+    $http.get('data/myPost.json').then(function (resp) {
+        $scope.positionList = resp.data;
+    });
+    $scope.filterObj = {};
+    $scope.tClick = function (id, name) {
+        console.log(id,name);
+        switch (id) {
+            case 'all':
+                delete $scope.filterObj.state;
+                break;
+            case 'pass':
+                $scope.filterObj.state = '1';
+                break;
+            case 'fail':
+                $scope.filterObj.state = '-1';
+                break;
+            default:
 
+        }
+    }
 }]);
 
 'use strict';
-angular.module('app').controller('registerCtrl', ['$http', '$scope', function ($http, $scope) {
-
+angular.module('app').controller('registerCtrl', ['$interval', '$http', '$scope', '$state', function ($interval, $http, $scope, $state) {
+    $scope.submit = function () {
+        console.log($scope.user);
+        $http.post('data/regist.json', $scope.user).success(function (resp) {
+            $state.go('login');
+        });
+    }
+    $scope.send = function () {
+        $http.get('data/code.json').then(function (resp) {
+            if (1===resp.data.state) {
+                $scope.time = 6;
+                var interval = $interval(function () {
+                    if ($scope.time>0) {
+                        $scope.time -= 1;
+                    }else {
+                        $interval.cancel(interval);
+                        return;
+                    }
+                },1000);
+            }
+        })
+    }
 }]);
 
 'use strict';
@@ -259,32 +401,57 @@ angular.module('app').directive('appPositionClass', [function () {
 }]);
 
 'use strict';
-angular.module('app').directive('appPositionInfo', [function () {
-  return {
-    restrict: 'A',
-    replace: true,
-    templateUrl: 'view/template/positionInfo.html',
-    scope: {
-      isActive: '=',
-      isLogin: '=',
-      pos: '=',
-      com: '='
-    },
-    link: function ($scope) {
-      $scope.imagePath = $scope.isActive ? 'images/active.png' : 'images/star.png';
+angular.module('app').directive('appPositionInfo', ['$http', function($http) {
+    return {
+        restrict: 'A',
+        replace: true,
+        templateUrl: 'view/template/positionInfo.html',
+        scope: {
+            isActive: '=',
+            isLogin: '=',
+            pos: '=',
+            com: '='
+        },
+        link: function($scope) {
+            $scope.$watch('pos', function (newVal) {
+                if (newVal) {
+                    $scope.pos.select = $scope.pos.select || false;
+                    $scope.imagePath = $scope.pos.select ? 'images/star-active.png' : 'images/star.png';
+                }
+            })
+            $scope.favorite = function() {
+                $http.post('data/favorite.json', {
+                    id: $scope.pos.id,
+                    select: !$scope.pos.select
+                }).success(function(resp) {
+                    $scope.pos.select = !$scope.pos.select;
+                    $scope.imagePath = $scope.pos.select ? 'images/star-active.png' : 'images/star.png';
+                })
+            }
+        }
     }
-  }
 }]);
 
 'use strict';
-angular.module('app').directive('appPositionList', [function() {
+angular.module('app').directive('appPositionList', ['$http', function($http) {
     return {
         restrict: 'A',
         replace: true,
         templateUrl: 'view/template/positionList.html',
         scope: {
             data: '=',
-            filterObj: '='
+            filterObj: '=',
+            isFavorite: '='
+        },
+        link: function ($scope) {
+            $scope.select = function (item) {
+                $http.post('data/favorite.json', {
+                    id: item.id,
+                    select: !item.select
+                }).success(function (resp) {
+                    item.select = !item.select;
+                });
+            }
         }
     };
 }]);

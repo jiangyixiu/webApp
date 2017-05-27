@@ -47,7 +47,13 @@
   vertical-align: bottom;
 }
 .head {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
   background-color: #12d5b5;
+  box-sizing: border-box;
   height: 1.06666667rem;
   line-height: 1.06666667rem;
   padding: 0 8px;
@@ -60,9 +66,13 @@
   border-color: #feae11;
   border-style: dashed;
   color: #ffffff;
-  margin-top: 0.26666667rem;
-  padding-left: 0.4rem;
-  padding-right: 0.4rem;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 10px;
+  width: 70px;
+  height: 22px;
+  margin: auto;
 }
 .head .back-btn {
   font-size: 20px;
@@ -84,7 +94,7 @@
 .foot li {
   font-size: 16px;
   text-align: center;
-  width: 33%;
+  width: 33.33%;
   color: #333333;
 }
 .foot li.select {
@@ -113,7 +123,9 @@
   height: .48rem;
 }
 .position-list {
-  margin: 0;
+  float: left;
+  width: 100%;
+  margin-top: 1.06666667rem;
   padding: 0;
 }
 .position-list li {
@@ -145,16 +157,33 @@
   font-size: 0.4rem;
   color: rgba(255, 119, 0, 0.83);
 }
+.position-list .item .icon {
+  width: 0.8rem;
+  height: 0.8rem;
+  position: absolute;
+  right: 30px;
+  top: 40px;
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.position-list .item .icon.star {
+  background-image: url(../images/star.png);
+}
+.position-list .item .icon.star-active {
+  background-image: url(../images/star-active.png);
+}
 .position-info {
   border-bottom: 1px solid #d4d4d4;
-  padding: 26px 10px 18px;
+  padding: 52px 10px 18px;
   line-height: 2.2;
 }
 .position-info .ml {
   margin-left: 20px;
 }
 .position-info img {
-  top: 40px;
+  top: 70px;
+  width: 1.083333rem;
   right: 24px;
 }
 .position-class {
@@ -201,6 +230,7 @@
 .tab {
   background-color: #f7f7f7;
   position: fixed;
+  z-index: 1000;
   left: 0;
   right: 0;
   top: 0;
@@ -259,6 +289,7 @@
   left: 0;
   width: 100%;
   border: none;
+  font-size: 15px;
 }
 .position-desc {
   margin-top: 10px;
@@ -276,6 +307,7 @@
 .search-bar {
   background-color: #12d5b5;
   position: fixed;
+  z-index: 999;
   right: 0;
   left: 0;
   top: 0;
@@ -315,6 +347,7 @@
 }
 .search-list {
   width: 100%;
+  margin-bottom: 40px;
   margin-top: 2.18666667rem;
 }
 .login {
@@ -365,6 +398,22 @@
 .login form input::-webkit-input-placeholder {
   color: #ffffff;
 }
+.login form input.ng-invalid + span {
+  position: absolute;
+  color: #f30;
+  text-align: right;
+  padding-right: 20px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  top: 0;
+  right: 0;
+  width: 3.6rem;
+  height: 100%;
+  font-size: 12px;
+  pointer-events: none;
+}
 .login form button {
   width: 8rem;
   height: 0.93333333rem;
@@ -382,6 +431,162 @@
   border: 1px solid #12d5b5;
   background-color: rgba(18, 213, 180, 0.2);
   color: #12d5b5;
+}
+.register {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-image: url(../images/background.png);
+  background-size: 100% 100%;
+}
+.register form {
+  margin-top: 1.46666667rem;
+}
+.register form .form-line {
+  width: 8rem;
+  height: 1.06666667rem;
+  margin: auto;
+  position: relative;
+}
+.register form .form-line::before {
+  content: '';
+  display: inline-block;
+  width: 1.666667rem;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  background-image: url(../images/lock.png);
+  background-size: auto 60%;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.register form .form-line:first-child::before {
+  background-image: url(../images/me_white.png);
+  background-size: auto 70%;
+}
+.register form input {
+  width: 8rem;
+  height: 1.06666667rem;
+  font-size: 0.37333333rem;
+  padding: 0 .666667rem 0 2rem;
+  box-sizing: border-box;
+  border: none;
+  margin: 1px auto;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.register form input::-webkit-input-placeholder {
+  color: #ffffff;
+}
+.register form input.ng-invalid + span {
+  position: absolute;
+  color: #f30;
+  text-align: right;
+  padding-right: 20px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  top: 0;
+  right: 0;
+  width: 3.6rem;
+  height: 100%;
+  font-size: 12px;
+  pointer-events: none;
+}
+.register form .message-wrap {
+  margin-top: 1.01333333rem;
+  width: 8rem;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  position: relative;
+}
+.register form .message-wrap .message-box {
+  flex: 1;
+  height: 1.06666667rem;
+  font-size: 0.37333333rem;
+  padding: 0 .8rem 0 .8rem;
+  box-sizing: border-box;
+  border: none;
+  margin: 1px auto;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.register form .message-wrap .message-box::-webkit-input-placeholder {
+  color: #ffffff;
+}
+.register form .message-wrap .message-box + span {
+  right: 80px;
+}
+.register form .message-wrap .message {
+  font-size: 0.37333333rem;
+  color: #12d5b5;
+  border: 1px solid #12d5b5;
+  padding: 0 5px;
+  margin: 10px 0  10px 20px;
+  min-width: 1.6rem;
+  text-align: center;
+}
+.register form .message-wrap .message.disabled {
+  color: #d4d4d4;
+  border-color: #d4d4d4;
+}
+.register form button {
+  width: 8rem;
+  height: 0.93333333rem;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 0.42666667rem;
+}
+.register form button.register-btn {
+  margin-top: 1.6rem;
+  border: 1px solid #12d5b5;
+  background-color: rgba(18, 213, 180, 0.2);
+  color: #12d5b5;
+}
+.me img {
+  margin-top: 1.6rem;
+  width: 2.13333333rem;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 50%;
+}
+.me .userName {
+  margin-top: 0.53333333rem;
+}
+.me .login-btn {
+  width: 9.06666667rem;
+  height: 1.06666667rem;
+  margin-top: 6.93333333rem;
+  font-size: 0.42666667rem;
+  background-color: #12d5b5;
+  color: #ffffff;
+  border: none;
+}
+.me .btns {
+  margin-top: 1.06666667rem;
+}
+.me .btns button {
+  width: 4rem;
+  height: 2.53333333rem;
+  font-size: 0.42666667rem;
+  background-color: #12d5b5;
+  color: #ffffff;
+  border: none;
+  margin-left: 0.32rem;
+  margin-right: 0.32rem;
+}
+.me .btns button.logout {
+  width: 9.06666667rem;
+  height: 1.06666667rem;
+  margin-top: 0.8rem;
+  background-color: #f30;
+}
+.my-post {
+  margin-top: 2.18666667rem;
 }
 * {
   padding: 0;

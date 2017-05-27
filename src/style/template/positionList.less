@@ -1,33 +1,57 @@
-.position-list{
-  margin: 0;
-  padding: 0;
-  li {
-      position: relative;
-  }
-  .item {
-    padding: 8px;
-    list-style: none;
-    border-bottom: 1px solid @listLineColor;
-    overflow: hidden;
-    .logo {
-      .w(65);
-      .h(65);
-      border-radius: 5px;
-      margin-right: 12px;
+.position-list {
+    float: left;
+    width: 100%;
+    .mt(40);
+    padding: 0;
+
+    li {
+        position: relative;
     }
-    .title {
-      margin: 0;
+
+    .item {
+        padding: 8px;
+        list-style: none;
+        border-bottom: 1px solid @listLineColor;
+        overflow: hidden;
+
+        .logo {
+            .w(65);
+            .h(65);
+            border-radius: 5px;
+            margin-right: 12px;
+        }
+
+        .title {
+            margin: 0;
+        }
+
+        .text {
+            margin: 0;
+            .fs(14);
+        }
+
+        .salary {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            .fs(15);
+            color: @salaryColor;
+        }
+        .icon {
+            .w(30);
+            .h(30);
+            position: absolute;
+            right: 30px;
+            top: 40px;
+            display: inline-block;
+            background-repeat: no-repeat;
+            background-size: 100%;
+            &.star {
+                background-image: url(../images/star.png);
+            }
+            &.star-active {
+                background-image: url(../images/star-active.png);
+            }
+        }
     }
-    .text {
-      margin: 0;
-      .fs(14);
-    }
-    .salary {
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        .fs(15);
-        color: @salaryColor;
-    }
-  }
 }

@@ -1,0 +1,40 @@
+.me {
+    img {
+        .mt(60);
+        .w(80);
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 50%;
+    }
+    .userName {
+        .mt(20);
+    }
+    .login-btn {
+        .w(340);
+        .h(40);
+        .mt(260);
+        .fs(16);
+        background-color: @headBgColor;
+        color: @defaultColor;
+        border: none;
+    }
+    .btns {
+        .mt(40);
+        button {
+            .w(150);
+            .h(95);
+            .fs(16);
+            background-color: @headBgColor;
+            color: @defaultColor;
+            border: none;
+            .ml(12);
+            .mr(12);
+            &.logout {
+                .w(340);
+                .h(40);
+                .mt(30);
+                background-color: @dangerColor;
+            }
+        }
+    }
+}
